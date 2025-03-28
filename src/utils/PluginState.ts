@@ -240,7 +240,7 @@ export default class PluginState {
       content = ''
     } else {
       // 拼接占位符
-      content = this.placeholder.repeat(this.currentWord.name.length)
+      content = this.getInitialWordBarContent()[0]+this.placeholder.repeat(this.currentWord.name.length-1)
     }
     return content
   }
