@@ -304,15 +304,14 @@ export default class PluginState {
   }
 
   getFilePath(): string {
-    /* 把文件存到用户的 VSCode 扩展数据目录（插件 ID 需替换）
+    // 把文件存到用户的 VSCode 扩展数据目录（插件 ID 需替换）
     const storagePath = vscode.workspace.workspaceFolders
         ? vscode.workspace.workspaceFolders[0].uri.fsPath // 工作区根目录
         : path.join(__dirname, '..'); // 备选目录
 
     const filePath = path.join(storagePath, 'words.txt');
     //console.log('File path:', filePath);
-    */
-    return "~/google_cloud/words_from_vscode_qwerty.txt";
+    return filePath;
   }
 
   writeFile(word: string) {
