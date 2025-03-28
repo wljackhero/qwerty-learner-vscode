@@ -233,7 +233,7 @@ export default class PluginState {
     //this.outputChannel.appendLine('saveWord called');
     this.prevWord();
     //this.outputChannel.appendLine('Current word to save: ' + this.currentWord.name);
-    this.writeFile(this.currentWord.name);
+    this.writeFile(this.currentWord.name+"\t"+this.currentWord.trans);
     this.nextWord();
   }
   toggleDictName() {

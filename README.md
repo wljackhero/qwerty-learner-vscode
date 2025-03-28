@@ -1,3 +1,4 @@
+vsce package --no-yarn
 重新加载 VSCode 窗口（Command Palette -> "Developer: Reload Window"）
 
 
