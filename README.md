@@ -1,5 +1,5 @@
-vsce package --no-yarn
-重新加载 VSCode 窗口（Command Palette -> "Developer: Reload Window"）
+<!--vsce package --no-yarn
+重新加载 VSCode 窗口（Command Palette -> "Developer: Reload Window"）-->
 
 
 <div align=center>
@@ -22,6 +22,9 @@ vsce package --no-yarn
 <div align=center>
 <img  src="docs/Screenshot.png"/>
 </div>
+
+## changelog
+Save Last Word  保存上一个单词及其翻译到当前目录的word.txt文件
 
 ## 💡 演示
 
@@ -69,6 +72,7 @@ vsce package --no-yarn
 - Toggle Word Visibility 切换是否展示单词（默写模式）
 - Toggle Read Only Mode 开关只读模式
 - Toggle Chapter Cycle Mode 章节循环模式
+- Save Last Word  保存上一个单词及其翻译到当前目录的word.txt文件
 
 命令面板快捷键  
 Mac: `cmd + shift + p`  
