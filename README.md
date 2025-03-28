@@ -1,3 +1,6 @@
+重新加载 VSCode 窗口（Command Palette -> "Developer: Reload Window"）
+
+
 <div align=center>
 <img  src="docs/logo.png" width="200px"/>
 </div>

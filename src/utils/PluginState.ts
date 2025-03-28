@@ -4,6 +4,8 @@ import { idDictionaryMap } from './../resource/dictionary'
 import { compareWord, getConfig, getDictFile } from '.'
 import * as vscode from 'vscode'
 import { Word } from '@/typings'
+import * as fs from 'fs'
+import * as path from 'path'
 
 export default class PluginState {
   private _globalState: vscode.Memento
@@ -36,8 +38,11 @@ export default class PluginState {
     chapter: number
     dictKey: string
   }
+  private outputChannel: vscode.OutputChannel
 
   constructor(context: vscode.ExtensionContext) {
+    this.outputChannel = vscode.window.createOutputChannel('QWERTY Learner');
+    this.outputChannel.show();
     const globalState = context.globalState
     this._globalState = globalState
     globalState.setKeysForSync(['chapter', 'dictKey'])
@@ -221,6 +226,15 @@ export default class PluginState {
       this.order += 1
     }
     this.currentExerciseCount = 0
+    /*vscode.window.createOutputChannel('QWERTY Learner').appendLine(`next word called`)
+    console.log(`next word called`)*/
+  }
+  saveWord() {
+    //this.outputChannel.appendLine('saveWord called');
+    this.prevWord();
+    //this.outputChannel.appendLine('Current word to save: ' + this.currentWord.name);
+    this.writeFile(this.currentWord.name);
+    this.nextWord();
   }
   toggleDictName() {
     this.hideDictName = !this.hideDictName
@@ -240,7 +254,7 @@ export default class PluginState {
       content = ''
     } else {
       // 拼接占位符
-      content = this.getInitialWordBarContent()[0]+this.placeholder.repeat(this.currentWord.name.length-1)
+      content = this.currentWord.name[0]+this.placeholder.repeat(this.currentWord.name.length-1)
     }
     return content
   }
@@ -287,5 +301,30 @@ export default class PluginState {
 
   private loadDict() {
     this.dictWords = getDictFile(this.dict.url)
+  }
+
+  getFilePath(): string {
+    // 把文件存到用户的 VSCode 扩展数据目录（插件 ID 需替换）
+    const storagePath = vscode.workspace.workspaceFolders
+        ? vscode.workspace.workspaceFolders[0].uri.fsPath // 工作区根目录
+        : path.join(__dirname, '..'); // 备选目录
+
+    const filePath = path.join(storagePath, 'words.txt');
+    //console.log('File path:', filePath);
+    return filePath;
+  }
+
+  writeFile(word: string) {
+    const filePath = this.getFilePath();
+    //console.log('Attempting to write to file:', filePath);
+    fs.appendFile(filePath, word + '\n', (err) => {
+        if (err) {
+            console.error('Error writing to file:', err);
+            //vscode.window.showErrorMessage('保存生词失败: ' + err.message);
+        } else {
+            console.log('Successfully wrote to file');
+            //vscode.window.showInformationMessage(`已保存: ${word}`);
+        }
+    });
   }
 }

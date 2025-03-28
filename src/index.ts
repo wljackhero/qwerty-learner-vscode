@@ -10,6 +10,7 @@ import PluginState from './utils/PluginState'
 const PLAY_VOICE_COMMAND = 'qwerty-learner.playVoice'
 const PREV_WORD_COMMAND = 'qwerty-learner.prevWord'
 const NEXT_WORD_COMMAND = 'qwerty-learner.nextWord'
+const SAVE_WORD_COMMAND = 'qwerty-learner.saveWord'
 const TOGGLE_TRANSLATION_COMMAND = 'qwerty-learner.toggleTranslation'
 const TOGGLE_DIC_NAME_COMMAND = 'qwerty-learner.toggleDicName'
 
@@ -21,13 +22,17 @@ export function activate(context: vscode.ExtensionContext) {
   const playVoiceBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, -102)
   const translationBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, -103)
   const prevWord = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, -104)
-  const nextWord = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, -105)
+  const saveWord = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, -105)
+  const nextWord = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, -106)
   prevWord.text = '<'
   prevWord.tooltip = '切换上一个单词'
   prevWord.command = PREV_WORD_COMMAND
   nextWord.text = '>'
   nextWord.tooltip = '切换下一个单词'
   nextWord.command = NEXT_WORD_COMMAND
+  saveWord.text = 'S'
+  saveWord.tooltip = '保存前一个单词'
+  saveWord.command = SAVE_WORD_COMMAND
   playVoiceBar.command = PLAY_VOICE_COMMAND
   playVoiceBar.tooltip = '播放发音'
   translationBar.tooltip = '显示/隐藏中文翻译'
@@ -106,6 +111,7 @@ export function activate(context: vscode.ExtensionContext) {
           inputBar.show()
           playVoiceBar.show()
           prevWord.show()
+          saveWord.show()
           nextWord.show()
           translationBar.show()
           if (pluginState.readOnlyMode) {
@@ -116,6 +122,7 @@ export function activate(context: vscode.ExtensionContext) {
           inputBar.hide()
           playVoiceBar.hide()
           prevWord.hide()
+          saveWord.hide()
           nextWord.hide()
           translationBar.hide()
           removeReadOnlyInterval()
@@ -170,6 +177,11 @@ export function activate(context: vscode.ExtensionContext) {
       vscode.commands.registerCommand(NEXT_WORD_COMMAND, () => {
         pluginState.nextWord()
         initializeBar()
+      }),
+      vscode.commands.registerCommand(SAVE_WORD_COMMAND, () => {
+        //console.log('SAVE_WORD_COMMAND triggered');
+        pluginState.saveWord();
+        initializeBar();
       }),
       vscode.commands.registerCommand('qwerty-learner.toggleChapterCycleMode', () => {
         pluginState.chapterCycleMode = !pluginState.chapterCycleMode
